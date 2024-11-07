@@ -18,7 +18,7 @@
 
         table {
             width: 35%;
-            max-width: 1000px;
+            max-width: 600px;
             margin: 0 auto;
             border-collapse: collapse;
         }
@@ -52,6 +52,33 @@
             text-align: left;
             font-size: 21px;
             font-weight: bold;
+            margin: 0;
+        }
+        /*Reageeriv disain väiksemale ekraanile */
+        @media (max-width: 768px) {
+            h1 {font-size: 36px;
+            }
+            th, td {
+                font-size: 14px;
+                padding: 6px;
+            }
+            h3 {
+                font-size: 16px;
+            }
+            table {
+                width: 100%;
+            }
+        }
+        @media (max-width: 480px) {
+            h1 {font-size: 28px;
+            }
+            th, td {
+                font-size: 12px;
+                padding: 4px;
+            }
+            h3 {
+                font-size: 14px;
+            }
         }
 
     </style>
