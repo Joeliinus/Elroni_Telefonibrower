@@ -21,7 +21,6 @@
             width: 35%;
             max-width: 600px;
             margin: 0 auto;
-            border-collapse: collapse;
         }
 
         th {
@@ -39,10 +38,11 @@
             padding: 10px;
             border: 2px solid lightblue;
             background-color: palevioletred;
+            border-radius: 10px;
         }
 
         h1 {
-            font-size: 64px;
+            font-size: 48px;
             font-weight: bold;
             color: lightblue;
             text-align: center;
@@ -55,6 +55,7 @@
             font-weight: bold;
             margin: 0;
         }
+
         /*Reageeriv disain väiksemale ekraanile */
         @media (max-width: 768px) {
             h1 {font-size: 36px;
@@ -82,41 +83,209 @@
             }
         }
 
+        .seadeNupp {
+            background-color: #e74c3c;
+            color: white;
+            padding: 5px;
+            margin: 0 15px;
+            font-size: 14px;
+            font-weight: bold;
+            cursor: pointer;
+            border-collapse: collapse;
+            border: 3px bold palevioletred;
+            border-radius: 10px;
+        }
+
+        .seadeVaade {
+            display: none;
+            position: fixed;
+            top: 10%;
+            left: 17%;
+            transform: translateX(-50%);
+            padding: 20px;
+            background-color: #f0f0f0;
+            width: 80%;
+            max-width: 350px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            text-align: left;
+            border-radius: 10px;
+            border: 2px solid palevioletred;
+            z-index: 100;
+        }
+
+        .tmuusika {
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+
+        .mKontroll button {
+            margin: 10px 5px;
+            cursor: pointer;
+        }
+
+        .heliKontroll {
+            margin-left: 5px;
+        }
+
+        .teateNupp {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+
+        .taustaValik {
+            display: inline-block;
+            margin: 5px;
+            width: 10px;
+            height: 5px;
+            cursor: pointer;
+            border: 3px solid lightblue;
+            border-radius: 3px;
+        }
+
+        .keeleValik {
+            margin: 15px 0;
+            font-weight: bold;
+        }
+
+
     </style>
 </head>
 <body>
-<h1>Tuisurööpad</h1>
-<table>
-    <tr>
-        <th colspan="2" scope="col"><u>Tondi</u></th>
-    </tr>
-    <tr>
-        <td><h3>Väljuv rong:</h3></td>
-        <td>10:15</td>
-    </tr>
-    <tr>
-        <td><h3>Järgmine rong:</h3></td>
-        <td>10:25</td>
-    </tr>
-    <tr>
-        <td><h3>Kolmas rong:</h3></td>
-        <td>10:35</td>
-    </tr>
-    <tr>
-        <th colspan="2" scope="col"><u>Kivimäe</u></th>
-    </tr>
-    <tr>
-        <td><h3>Väljuv rong:</h3></td>
-        <td>11:00</td>
-    </tr>
-    <tr>
-        <td><h3>Järgmine rong:</h3></td>
-        <td>11:10</td>
-    </tr>
-    <tr>
-        <td><h3>Kolmas rong:</h3></td>
-        <td>11:20</td>
-    </tr>
-</table>
+    <button class="seadeNupp" onclick="toggleSettings()">SEADED</button>
+
+    <div class="seadeVaade" id="seadeVaade">
+        <h3>Taustavärv</h3>
+        <div>
+            <div class="taustaValik" onclick="setBackground('white')" style="background-color: white;"></div>
+            <div class="taustaValik" onclick="setBackground('black')" style="background-color: black;"></div>
+            <div class="taustaValik" onclick="setBackground('darkred')" style="background-color: darkred;"></div>
+            <div class="taustaValik" onclick="setBackground('darkblue')" style="background-color: darkblue;"></div>
+            <div class="taustaValik" onclick="setBackground('lightgreen')" style="background-color: lightgreen;"></div>
+            <div class="taustaValik" onclick="setBackground('lightyellow')" style="background-color: lightyellow;"></div>
+            <div class="taustaValik" onclick="setBackground('rebeccapurple')" style="background-color: rebeccapurple;"></div>
+            <div class="taustaValik" onclick="setBackground('palevioletred')" style="background-color: palevioletred;"></div>
+        </div>
+
+        <h3>Teadaanded</h3>
+        <div class="teateNupp">
+            <span>ON</span>
+            <input type="checkbox" id="teateNupp" onchange="toggleNotifications()">
+            <span>OFF</span>
+        </div>
+
+        <h3>Keel</h3>
+        <div class="keeleValik">
+            <button onclick="setLanguage('et')">Eesti</button>
+            <button onclick="setLanguage('en')">English</button>
+        </div>
+
+        <h3>Taustamuusika</h3>
+        <div class="tmuusika">
+            <select id="songSelect" onchange="changeSong(this.value)">
+                <option value="Tuisukellad">Tuisukellad</option>
+                <option value="Tsuh-Tsuh">Tsuh-Tsuh</option>
+                <option value="Tuuletants">Tuuletants</option>
+            </select>
+            <button onclick="playMusic('Tuisukellad')">Play</button>
+            <button onclick="pauseMusic()">Pause</button>
+            <input type="range" id="volumeSlider" min="0" max="100" step="1" onchange="setVolume(this.value)">
+        </div>
+    </div>
+
+    <h1>Tuisurööpad</h1>
+    <table>
+        <tr>
+            <th colspan="2" scope="col"><u>Tondi</u></th>
+        </tr>
+        <tr>
+            <td><h3>Väljuv rong:</h3></td>
+            <td>10:15</td>
+        </tr>
+        <tr>
+            <td><h3>Järgmine rong:</h3></td>
+            <td>10:25</td>
+        </tr>
+        <tr>
+            <td><h3>Kolmas rong:</h3></td>
+            <td>10:35</td>
+        </tr>
+        <tr>
+            <th colspan="2" scope="col"><u>Kivimäe</u></th>
+        </tr>
+        <tr>
+            <td><h3>Väljuv rong:</h3></td>
+            <td>11:00</td>
+        </tr>
+        <tr>
+            <td><h3>Järgmine rong:</h3></td>
+            <td>11:10</td>
+        </tr>
+        <tr>
+            <td><h3>Kolmas rong:</h3></td>
+            <td>11:20</td>
+        </tr>
+    </table>
+
+    <script>
+        let audio = new Audio();
+        let currentSong = localStorage.getItem('selectedSong') || 'Tuisukellad';
+        audio.src = `${currentSong}.mp3`;
+
+        function toggleSettings() {
+            const menu = document.getElementById('seadeVaade');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        function setBackground(color) {
+            document.body.style.backgroundColor = color;
+            localStorage.setItem('bgColor', color);
+        }
+
+        function setLanguage(lang) {
+            document.documentElement.lang = lang;
+            localStorage.setItem('language', lang);
+            alert(`Language changed to ${lang === 'et' ? 'Estonian' : 'English'}`);
+        }
+
+        function changeSong(song) {
+            currentSong = song;
+            audio.src = `${currentSong}.mp3`;
+            localStorage.setItem('selectedSong', song);
+            audio.loop = true;
+        }
+
+        function playMusic() {
+            audio.loop = true;
+            audio.play();
+        }
+
+        function pauseMusic() {
+            audio.pause();
+        }
+
+        function setVolume(volume) {
+            audio.volume = volume / 100;
+            localStorage.setItem('volume', volume);
+        }
+
+        function toggleNotifications() {
+            const enabled = document.getElementById('teateNupp').checked;
+            alert(`Notifications ${enabled ? 'enabled' : 'disabled'}`);
+        }
+
+        /* Load user settings on page load */
+        window.onload = function () {
+            document.body.style.backgroundColor = localStorage.getItem('bgColor') || 'white';
+            document.documentElement.lang = localStorage.getItem('language') || 'et';
+            document.getElementById('songSelect').value = currentSong;
+            document.getElementById('volumeSlider').value = localStorage.getItem('volume') || 100;
+            audio.volume = (localStorage.getItem('volume') || 100) / 100;
+            audio.loop = true;
+        };
+
+    </script>
+
 </body>
 </html>
