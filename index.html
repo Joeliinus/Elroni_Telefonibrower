@@ -70,6 +70,12 @@
             table {
                 width: 100%;
             }
+            .seadeVaade {
+                width: 90%;
+                left: 5%;
+                top: 60px;
+                max-width: 300px;
+            }
         }
         @media (max-width: 480px) {
             h1 {font-size: 28px;
@@ -80,6 +86,13 @@
             }
             h3 {
                 font-size: 14px;
+            }
+            .seadeVaade {
+                width: 95%;
+                top: 70px;
+                left: 2%;
+                max-width: 280px;
+                padding: 15px;
             }
         }
 
@@ -92,25 +105,27 @@
             font-weight: bold;
             cursor: pointer;
             border-collapse: collapse;
-            border: 3px bold palevioletred;
+            border: 3px solid palevioletred;
             border-radius: 10px;
         }
 
         .seadeVaade {
             display: none;
-            position: fixed;
-            top: 10%;
-            left: 17%;
-            transform: translateX(-50%);
+            position: absolute;
+            top: 70px;
+            left: 25px;
             padding: 20px;
             background-color: #f0f0f0;
             width: 80%;
             max-width: 350px;
+            min-width: 250px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             text-align: left;
             border-radius: 10px;
             border: 2px solid palevioletred;
             z-index: 100;
+            overflow: auto;
+
         }
 
         .tmuusika {
@@ -122,10 +137,6 @@
         .mKontroll button {
             margin: 10px 5px;
             cursor: pointer;
-        }
-
-        .heliKontroll {
-            margin-left: 5px;
         }
 
         .teateNupp {
@@ -145,7 +156,7 @@
         }
 
         .keeleValik {
-            margin: 15px 0;
+            margin: 5px;
             font-weight: bold;
         }
 
@@ -159,38 +170,38 @@
         <h3>Taustavärv</h3>
         <div>
             <div class="taustaValik" onclick="setBackground('white')" style="background-color: white;"></div>
-            <div class="taustaValik" onclick="setBackground('black')" style="background-color: black;"></div>
+            <div class="taustaValik" onclick="setBackground('grey')" style="background-color: grey;"></div>
             <div class="taustaValik" onclick="setBackground('darkred')" style="background-color: darkred;"></div>
-            <div class="taustaValik" onclick="setBackground('darkblue')" style="background-color: darkblue;"></div>
+            <div class="taustaValik" onclick="setBackground('lightskyblue')" style="background-color: lightskyblue;"></div>
             <div class="taustaValik" onclick="setBackground('lightgreen')" style="background-color: lightgreen;"></div>
             <div class="taustaValik" onclick="setBackground('lightyellow')" style="background-color: lightyellow;"></div>
             <div class="taustaValik" onclick="setBackground('rebeccapurple')" style="background-color: rebeccapurple;"></div>
-            <div class="taustaValik" onclick="setBackground('palevioletred')" style="background-color: palevioletred;"></div>
+            <div class="taustaValik" onclick="setBackground('lightcoral')" style="background-color: lightcoral;"></div>
         </div>
 
-        <h3>Teadaanded</h3>
+        <br><h3>Teadaanded</h3>
         <div class="teateNupp">
             <span>ON</span>
-            <input type="checkbox" id="teateNupp" onchange="toggleNotifications()">
+            <input type="checkbox" id="teateNupp" onchange="toggleNotifications()"><label for="teateNupp"></label>
             <span>OFF</span>
         </div>
 
-        <h3>Keel</h3>
+        <br><h3>Keel</h3>
         <div class="keeleValik">
             <button onclick="setLanguage('et')">Eesti</button>
             <button onclick="setLanguage('en')">English</button>
         </div>
 
-        <h3>Taustamuusika</h3>
+        <br><h3>Taustamuusika</h3>
         <div class="tmuusika">
-            <select id="songSelect" onchange="changeSong(this.value)">
+            <label for="songSelect"></label><select id="songSelect" onchange="changeSong(this.value)">
                 <option value="Tuisukellad">Tuisukellad</option>
                 <option value="Tsuh-Tsuh">Tsuh-Tsuh</option>
                 <option value="Tuuletants">Tuuletants</option>
             </select>
             <button onclick="playMusic('Tuisukellad')">Play</button>
             <button onclick="pauseMusic()">Pause</button>
-            <input type="range" id="volumeSlider" min="0" max="100" step="1" onchange="setVolume(this.value)">
+            <label for="volumeSlider"></label><input type="range" id="volumeSlider" min="0" max="100" step="1" onchange="setVolume(this.value)">
         </div>
     </div>
 
@@ -233,6 +244,43 @@
         let currentSong = localStorage.getItem('selectedSong') || 'Tuisukellad';
         audio.src = `${currentSong}.mp3`;
 
+        const translations = {
+            et: {
+                title: "Tuisurööpad",
+                tondi: "Tondi",
+                kivimae: "Kivimäe",
+                departingTrain: "Väljuv rong:",
+                nextTrain: "Järgmine rong:",
+                thirdTrain: "Kolmas rong:",
+                settings: "SEADED",
+                backgroundColor: "Taustavärv",
+                notifications: "Teadaanded",
+                language: "Keel",
+                music: "Taustamuusika",
+                on: "ON",
+                off: "OFF",
+                play: "Mängi",
+                pause: "Paus",
+            },
+            en: {
+                title: "Blizzard Tracks",
+                tondi: "Tondi",
+                kivimae: "Kivimäe",
+                departingTrain: "Departing Train:",
+                nextTrain: "Next Train:",
+                thirdTrain: "Third Train:",
+                settings: "SETTINGS",
+                backgroundColor: "Background Color",
+                notifications: "Notifications",
+                language: "Language",
+                music: "Background Music",
+                on: "ON",
+                off: "OFF",
+                play: "Play",
+                pause: "Pause",
+            }
+        };
+
         function toggleSettings() {
             const menu = document.getElementById('seadeVaade');
             menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
@@ -244,9 +292,33 @@
         }
 
         function setLanguage(lang) {
-            document.documentElement.lang = lang;
             localStorage.setItem('language', lang);
-            alert(`Language changed to ${lang === 'et' ? 'Estonian' : 'English'}`);
+            document.documentElement.lang = lang;
+
+            const texts = translations[lang];
+
+            document.querySelector("h1").textContent = texts.title;
+            document.querySelector(".seadeNupp").textContent = texts.settings;
+            document.querySelector("h3:nth-of-type(1)").textContent = texts.backgroundColor;
+            document.querySelector("h3:nth-of-type(2)").textContent = texts.notifications;
+            document.querySelector("h3:nth-of-type(3)").textContent = texts.language;
+            document.querySelector("h3:nth-of-type(4)").textContent = texts.music;
+
+            const notificationText = document.querySelector(".teateNupp");
+            notificationText.children[0].textContent = texts.on;
+            notificationText.children[1].textContent = texts.off;
+
+            const tableRows = document.querySelectorAll("td h3");
+            tableRows[0].textContent = texts.departingTrain;
+            tableRows[1].textContent = texts.nextTrain;
+            tableRows[2].textContent = texts.thirdTrain;
+            tableRows[3].textContent = texts.departingTrain;
+            tableRows[4].textContent = texts.nextTrain;
+            tableRows[5].textContent = texts.thirdTrain;
+
+            const musicButtons = document.querySelectorAll(".tmuusika button");
+            musicButtons[0].textContent = texts.play;
+            musicButtons[1].textContent = texts.pause;
         }
 
         function changeSong(song) {
@@ -277,10 +349,14 @@
 
         /* Load user settings on page load */
         window.onload = function () {
+            const lang = localStorage.getItem('language') || 'et';
+            setLanguage(lang);
+
             document.body.style.backgroundColor = localStorage.getItem('bgColor') || 'white';
-            document.documentElement.lang = localStorage.getItem('language') || 'et';
-            document.getElementById('songSelect').value = currentSong;
+            document.getElementById('songSelect').value = localStorage.getItem('selectedSong') || 'Tuisukellad';
             document.getElementById('volumeSlider').value = localStorage.getItem('volume') || 100;
+
+            audio.src = `${localStorage.getItem('selectedSong') || 'Tuisukellad'}.mp3`;
             audio.volume = (localStorage.getItem('volume') || 100) / 100;
             audio.loop = true;
         };
